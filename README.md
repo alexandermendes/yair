@@ -5,13 +5,13 @@ A somewhat opinionated image resizer.
 ## Installation
 
 ```text
-yarn install img-resizer
+yarn install yair
 ```
 
 ## Usage
 
 ```js
-import { resizeImage } from 'img-resizer';
+import { resizeImage } from 'yair';
 
 resizeImage(imgBuffer);
 ```
