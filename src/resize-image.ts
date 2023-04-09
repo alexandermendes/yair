@@ -20,7 +20,7 @@ const getDimArray = (
 const clamp = (val: string | number, min: number, max: number) =>
   Math.min(Math.max(Number(val), min), max);
 
-// return a default compression value based on a logarithmic scale
+// Return a default compression value based on a logarithmic scale
 // defaultValue = 100, zoom = 2; = 65
 // defaultValue = 80, zoom = 2; = 50
 // defaultValue = 100, zoom = 1.5; = 86
@@ -49,7 +49,7 @@ export const resizeImage = async (
   }
 
   if (options.crop) {
-    // convert percentages to px values
+    // Convert percentages to px values
     const cropValues = options.crop.map((value: string, index: number) => {
       if (value.indexOf('px') > -1) {
         return Number(value.substring(0, value.length - 2));
@@ -70,12 +70,12 @@ export const resizeImage = async (
     });
   }
 
-  // get zoom value
+  // Get zoom value
   const zoom = options.zoom ? parseFloat(options.zoom) : 1;
 
-  // resize
+  // Resize
   if (options.resize) {
-    // apply smart crop if available
+    // Apply smart crop if available
     if (options.crop_strategy === 'smart' && !options.crop) {
       const { width, height } = getDimArray(options.resize);
       const rotatedImage = await image.toBuffer();
@@ -116,7 +116,7 @@ export const resizeImage = async (
     image.resize({
       ...getDimArray(options.lb, zoom),
       fit: 'contain',
-      // default to a black background to replicate Photon API behaviour
+      // Default to a black background to replicate Photon API behaviour
       // when no background colour specified
       background: options.background || 'black',
       withoutEnlargement: true,
@@ -132,12 +132,12 @@ export const resizeImage = async (
     );
   }
 
-  // set default quality slightly higher than sharp's default
+  // Set default quality slightly higher than sharp's default
   if (!options.quality) {
     options.quality = applyZoomCompression(82, zoom);
   }
 
-  // allow override of compression quality
+  // Allow override of compression quality
   if (options.webp) {
     image.webp({
       quality: Math.round(clamp(options.quality, 0, 100)),
@@ -148,7 +148,6 @@ export const resizeImage = async (
     });
   }
 
-  // send image
   return new Promise((resolve, reject) => {
     image.toBuffer(async (err, data, info) => {
       if (err) {
